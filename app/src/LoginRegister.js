@@ -40,18 +40,18 @@ export default function LoginRegister() {
         <div>
             <form id="loginForm">
                 <div id="loginErrorsContainer">
-                    <div>{errors.username}</div>
-                    <div>{errors.password}</div>
+                    <div>{formErrorsLogin.username}</div>
+                    <div>{formErrorsLogin.password}</div>
                 </div>
                 <div id="loginInputContainer">
                     <input
-                        value=""
+                        value={formValuesLogin.username}
                         name="username"
                         type="text"
                         placeholder="Username"
                     />
                     <input
-                        value=""
+                        value={formValuesLogin.password}
                         name="password"
                         type="password"
                         placeholder="Password"
@@ -62,35 +62,35 @@ export default function LoginRegister() {
             </form>
             <form id="registerForm">
                 <div id="registerErrorsContainer">
-                    <div>{errors.username}</div>
-                    <div>{errors.email}</div>
-                    <div>{errors.password}</div>
-                    <div>{errors.confirmPassword}</div>
-                    <div>{errors.role}</div>
-                    <div>{errors.availability}</div>
-                    <div>{errors.country}</div>
+                    <div>{formErrorsRegister.username}</div>
+                    <div>{formErrorsRegister.email}</div>
+                    <div>{formErrorsRegister.password}</div>
+                    <div>{formErrorsRegister.confirmPassword}</div>
+                    <div>{formErrorsRegister.role}</div>
+                    <div>{formErrorsRegister.availability}</div>
+                    <div>{formErrorsRegister.country}</div>
                 </div>
                 <div id="registerInputContainer">
                     <input
-                        value=""
+                        value={formValuesRegister.username}
                         name="username"
                         type="text"
                         placeholder="Username"
                     />
                     <input
-                        value=""
+                        value={formValuesRegister.email}
                         name="email"
                         type="email"
                         placeholder="Email"
                     />
                     <input
-                        value=""
+                        value={formValuesRegister.password}
                         name="password"
                         type="password"
                         placeholder="Enter Password"
                     />
                     <input
-                        value=""
+                        value={formValuesRegister.confirmPassword}
                         name="confirmPassword"
                         type="password"
                         placeholder="Confirm Password"
@@ -98,7 +98,7 @@ export default function LoginRegister() {
                     <div id="roleSelect">
                         <label>
                             Role
-                        <select value="" name="role">
+                        <select value={formValuesRegister.role} name="role">
                                 <option value="">- Select an option -</option>
                                 <option value="admin">Admin</option>
                                 <option value="student">Student</option>
@@ -166,7 +166,7 @@ export default function LoginRegister() {
                         <label>
                             Country
                              <input
-                                value=""
+                                value={formValuesRegister.country}
                                 name="country"
                                 type="text"
                                 placeholder="Enter Country"
