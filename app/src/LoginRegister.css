@@ -14,15 +14,3 @@ button {
 label {
   cursor: pointer;
 }
-#form-switch {
-  display: none;
-}
-#register-form {
-  display: none;
-}
-#form-switch:checked ~ #registerForm {
-  display: block;
-}
-#form-switch:checked ~ #loginForm {
-  display: none;
-}
