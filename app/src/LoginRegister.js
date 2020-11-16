@@ -260,7 +260,7 @@ export default function LoginRegister() {
                     </div>
                 </div>
             </form>
-        </div >
+        </div>
     )
 }
 
