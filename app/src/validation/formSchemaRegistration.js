@@ -14,7 +14,7 @@ export default yup.object().shape({
         .required('Password is required'),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref('password'), null], 'Passwords must match'),
+        .required('Confirmation Password is required'),
     role: yup
         .string()
         .oneOf(["admin", "student", "volunteer"], "Role is required"),
@@ -25,4 +25,8 @@ export default yup.object().shape({
         .string()
         .required("Country is required")
         .min(4, "Country must be 4 characters or longer"),
+    usernameLogin: yup
+        .string(),
+    passwordLogin: yup
+        .string(),
 });
