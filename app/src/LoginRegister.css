@@ -10,7 +10,30 @@ input {
 }
 button {
   padding: 10px;
+  margin-top: 3px;
+  margin-right: 5px;
 }
 label {
   cursor: pointer;
+  font-weight: normal;
+  word-wrap: break-word;
+  display: block;
+}
+select {
+  margin-left: 6px;
+}
+#roleSelect {
+  margin-top: 6px;
+  font-weight: bold;
+}
+#availabilityCheckboxList {
+  margin-top: 6px;
+  font-weight: bold;
+}
+[type="checkbox"] {
+  vertical-align: middle;
+  width: 20px;
+}
+#countryInputContainer {
+  margin-top: 6px;
 }

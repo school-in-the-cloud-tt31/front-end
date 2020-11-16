@@ -67,14 +67,16 @@ export default function LoginRegister() {
         inputChange(name, correctValue);
     };
 
-    const showRegistration = () => {
+    const showRegistration = (evt) => {
+        evt.preventDefault();
         setFormValues({
             ...formValues,
             registering: true,
         });
     }
 
-    const showLogin = () => {
+    const showLogin = (evt) => {
+        evt.preventDefault();
         setFormValues({
             ...formValues,
             registering: false,
@@ -84,6 +86,11 @@ export default function LoginRegister() {
     const onSubmit = (evt) => {
         evt.preventDefault();
         // submit();
+        if (formValues.registering) {
+            alert('Sorry, registration is temporarily unavailable');
+        } else {
+            alert('Sorry, login is temporarily unavailable');
+        }
     };
 
     useEffect(() => {
@@ -160,90 +167,100 @@ export default function LoginRegister() {
                             placeholder="Confirm Password"
                         />
                         <div id="roleSelect">
-                            <label>
+                            <div>
                                 Role
-                        <select value={formValues.role} name="role" onChange={onChange}>
-                                    <option value="">- Select an option -</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="student">Student</option>
-                                    <option value="volunteer">Volunteer</option>
-                                </select>
-                            </label>
+                            </div>
+                            <select value={formValues.role} name="role" onChange={onChange}>
+                                <option value="">- Select an option -</option>
+                                <option value="admin">Admin</option>
+                                <option value="student">Student</option>
+                                <option value="volunteer">Volunteer</option>
+                            </select>
                         </div>
-                        <div id="availabilityCheckbox">
-                            <label>
+                        <div id="availabilityCheckboxList">
+                            <div>
                                 Availability
-                             <div id="dayCheckboxes">
-                                    <label>
-                                        Monday
-                                 <input
-                                            name="monday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                    <label>
-                                        Tuesday
-                                 <input
-                                            name="tuesday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                    <label>
-                                        Wednesday
-                                 <input
-                                            name="wednesday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                    <label>
-                                        Thursday
-                                 <input
-                                            name="thursday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                    <label>
-                                        Friday
-                                 <input
-                                            name="friday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                    <label>
-                                        Saturday
-                                 <input
-                                            name="saturday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                    <label>
-                                        Sunday
-                                 <input
-                                            name="sunday"
-                                            type="checkbox"
-                                        />
-                                    </label>
-                                </div>
-                            </label>
+                            </div>
+                            <div id="dayCheckboxes">
+                                <label>
+                                    <input
+                                        name="availability"
+                                        value="sunday"
+                                        type="checkbox"
+                                    />
+                                    Sunday
+                                </label>
+                                <label>
+                                    <input
+                                        name="availability"
+                                        value="monday"
+                                        type="checkbox"
+                                    />
+                                    Monday
+                                </label>
+                                <label>
+
+                                    <input
+                                        name="availability"
+                                        value="tuesday"
+                                        type="checkbox"
+                                    />
+                                    Tuesday
+                                </label>
+                                <label>
+
+                                    <input
+                                        name="availability"
+                                        value="wednesday"
+                                        type="checkbox"
+                                    />
+                                    Wednesday
+                                </label>
+                                <label>
+
+                                    <input
+                                        name="availability"
+                                        value="thursday"
+                                        type="checkbox"
+                                    />
+                                    Thursday
+                                </label>
+                                <label>
+
+                                    <input
+                                        name="availability"
+                                        value="friday"
+                                        type="checkbox"
+                                    />
+                                    Friday
+                                </label>
+                                <label>
+
+                                    <input
+                                        name="availability"
+                                        value="saturday"
+                                        type="checkbox"
+                                    />
+                                    Saturday
+                                </label>
+
+                            </div>
                         </div>
                         <div id="countryInputContainer">
-                            <label>
-                                Country
-                             <input
-                                    value={formValues.country}
-                                    name="country"
-                                    onChange={onChange}
-                                    type="text"
-                                    placeholder="Enter Country"
-                                />
-                            </label>
+                            <input
+                                value={formValues.country}
+                                name="country"
+                                onChange={onChange}
+                                type="text"
+                                placeholder="Enter Country"
+                            />
                         </div>
                         <button type='submit' disabled={disabled}>Register</button>
                         <button onClick={showLogin}>Already Member ? Sign In Now..</button>
                     </div>
                 </div>
             </form>
-        </div>
+        </div >
     )
 }
 

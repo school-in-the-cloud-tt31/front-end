@@ -19,8 +19,8 @@ export default yup.object().shape({
         .string()
         .oneOf(["admin", "student", "volunteer"], "Role is required"),
     availability: yup
-        .boolean()
-        .oneOf([true], 'Must at least choose one day for availability'),
+        .boolean(),
+    // .oneOf([true], 'Must at least choose one day for availability'),
     country: yup
         .string()
         .required("Country is required")
