@@ -20,9 +20,9 @@ label {
 #register-form {
   display: none;
 }
-#form-switch:checked ~ #register-form {
+#form-switch:checked ~ #registerForm {
   display: block;
 }
-#form-switch:checked ~ #login-form {
+#form-switch:checked ~ #loginForm {
   display: none;
 }
