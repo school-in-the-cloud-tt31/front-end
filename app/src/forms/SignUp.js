@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as yup from "yup";
+import axios from "axios";
 import schema from "../validation/signUpSchema";
 
 const initialFormValues = {
@@ -42,6 +43,22 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    axios
+      .post("https://schoolinthecloudtt31.herokuapp.com/api/auth/register", {
+        email: "a@email.com",
+        password: "aaa",
+        name: "aaa",
+        role: 1,
+        country: "mexico",
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     setFormValues(initialFormValues);
   };
 
@@ -92,6 +109,7 @@ export default function SignUp() {
         <option value="3">Volunteer</option>
       </select>
       <div>{formErrors.role}</div>
+
       <button type="submit">Sign Up</button>
     </form>
   );
