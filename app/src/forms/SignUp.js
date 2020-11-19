@@ -2,12 +2,54 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import axios from "axios";
 import schema from "../validation/signUpSchema";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+const StyledSignUp = styled.form`
+  width: 20%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+  }
+
+  label {
+    margin-top: 7px;
+    margin-bottom: 3px;
+  }
+
+  input {
+    padding: 5px;
+  }
+
+  button {
+    width: 20%;
+    margin: 15px auto;
+    border: none;
+    border-radius: 3px;
+    background-color: #2e2e2e;
+    color: white;
+    padding: 10px;
+  }
+
+  select {
+    width: 40%;
+    padding: 5px;
+  }
+
+  p {
+    text-align: center;
+  }
+`;
 
 const initialFormValues = {
   email: "",
   name: "",
   password: "",
   role: "",
+  country: "",
 };
 
 const initialFormErrors = {
@@ -15,9 +57,10 @@ const initialFormErrors = {
   password: "",
   email: "",
   role: "",
+  country: "",
 };
 
-export default function SignUp() {
+export default function SignUp(props) {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
@@ -44,26 +87,31 @@ export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const newUser = {
+      email: formValues.email,
+      name: formValues.name,
+      password: formValues.password,
+      role: formValues.role,
+      country: formValues.country,
+    };
+
     axios
-      .post("https://schoolinthecloudtt31.herokuapp.com/api/auth/register", {
-        email: "a@email.com",
-        password: "aaa",
-        name: "aaa",
-        role: 1,
-        country: "mexico",
-      })
+      .post(
+        "https://schoolinthecloudtt31.herokuapp.com/api/auth/register",
+        newUser
+      )
       .then((res) => {
-        console.log(res);
+        localStorage.setItem("token", res.data.payload.token);
       })
       .catch((err) => {
-        console.log(err);
+        debugger;
       });
 
     setFormValues(initialFormValues);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <StyledSignUp onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
 
       <label htmlFor="email">Email</label>
@@ -110,7 +158,20 @@ export default function SignUp() {
       </select>
       <div>{formErrors.role}</div>
 
+      <label htmlFor="country">Country</label>
+      <input
+        id="country"
+        type="text"
+        name="country"
+        placeholder="Enter country"
+        value={formValues.country}
+        onChange={handleChange}
+      />
+      <div>{formErrors.country}</div>
       <button type="submit">Sign Up</button>
-    </form>
+      <p>
+        Already a member? <Link to="/login">Sign in</Link>
+      </p>
+    </StyledSignUp>
   );
 }
