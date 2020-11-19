@@ -46,10 +46,10 @@ export default function SignUp() {
 
     axios
       .post("https://schoolinthecloudtt31.herokuapp.com/api/auth/register", {
-        email: "a@email.com",
-        password: "aaa",
-        name: "aaa",
-        role: 1,
+        email: "testing@email.com",
+        password: "test123",
+        name: "testing",
+        role: 3,
         country: "mexico",
       })
       .then((res) => {
