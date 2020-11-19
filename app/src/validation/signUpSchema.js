@@ -11,4 +11,5 @@ export default yup.object().shape({
     .min(3, "Username must be three characters long"),
   password: yup.string().required("Password is required"),
   role: yup.number().oneOf([1, 2, 3], "Role is required"),
+  country: yup.string().required("Country is required"),
 });
