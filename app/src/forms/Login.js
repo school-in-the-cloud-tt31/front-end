@@ -2,18 +2,54 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import axios from "axios";
 import schema from "../validation/loginSchema";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+const StyledLogin = styled.form`
+  width: 20%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+  }
+
+  label {
+    margin-top: 7px;
+    margin-bottom: 3px;
+  }
+
+  input {
+    padding: 5px;
+  }
+
+  button {
+    width: 20%;
+    margin: 15px auto;
+    border: none;
+    border-radius: 3px;
+    background-color: #2e2e2e;
+    color: white;
+    padding: 10px;
+  }
+
+  p {
+    text-align: center;
+  }
+`;
 
 const initialFormValues = {
-  username: "",
+  name: "",
   password: "",
 };
 
 const initialFormErrors = {
-  username: "",
+  name: "",
   password: "",
 };
 
-export default function Login() {
+export default function Login(props) {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
@@ -39,23 +75,37 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    let returnUser = {
+      name: formValues.name,
+      password: formValues.password,
+    };
+
+    axios
+      .post(URL_HERE, returnUser)
+      .then((res) => {
+        localStorage.setItem("token", res.data.payload.token);
+      })
+      .catch((err) => {
+        debugger;
+      });
+
     setFormValues(initialFormValues);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <StyledLogin onSubmit={handleSubmit}>
       <h2>Login</h2>
 
-      <label htmlFor="username">Username</label>
+      <label htmlFor="name">Username</label>
       <input
-        id="username"
+        id="name"
         type="text"
-        name="username"
+        name="name"
         placeholder="Username"
-        value={formValues.username}
+        value={formValues.name}
         onChange={handleChange}
       />
-      <div>{formErrors.username}</div>
+      <div>{formErrors.name}</div>
       <label htmlFor="password">Password</label>
       <input
         id="password"
@@ -67,6 +117,9 @@ export default function Login() {
       />
       <div>{formErrors.password}</div>
       <button type="submit">Login</button>
-    </form>
+      <p>
+        Not a member? <Link to="/">Sign up</Link>Sign up
+      </p>
+    </StyledLogin>
   );
 }
