@@ -1,6 +1,25 @@
 import React, { useState } from "react";
 import { addTodo } from "../redux/actions";
 import { connect } from "react-redux";
+import styled from "styled-components";
+
+const StyledAdd = styled.form`
+  text-align: center;
+
+  input {
+    padding: 7px;
+    width: 30%;
+  }
+
+  button {
+    margin: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: #2e2e2e;
+    color: white;
+    padding: 10px;
+  }
+`;
 
 const TodoForm = ({ addTodo }) => {
   const [todo, setTodo] = useState("");
@@ -14,19 +33,16 @@ const TodoForm = ({ addTodo }) => {
   };
 
   return (
-    <form className="add-task-form" onSubmit={handleSubmit}>
+    <StyledAdd onSubmit={handleSubmit}>
       <input
-        className="add-task"
-        name="task"
+        name="todo"
         value={todo}
         type="text"
-        placeholder="Add new task..."
+        placeholder="Add new todo..."
         onChange={inputChange}
       />
-      <button type="submit" className="add-task-btn">
-        <i className="fas fa-plus"></i>
-      </button>
-    </form>
+      <button type="submit">Add</button>
+    </StyledAdd>
   );
 };
 

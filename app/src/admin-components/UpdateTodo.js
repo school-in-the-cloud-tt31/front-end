@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { editTodo } from "../redux/actions";
+import styled from "styled-components";
 
-const todoUpdateValue = {
+const StyledEdit = styled.form`
+  text-align: center;
+
+  input {
+    padding: 7px;
+    width: 30%;
+  }
+
+  button {
+    margin: 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: #2e2e2e;
+    color: white;
+    padding: 10px;
+  }
+`;
+
+const editInitialValue = {
   id: "",
   task_name: "",
   publish_date: "",
 };
 
 const UpdateTodo = ({ todoTobeEdit, editTodo }) => {
-  const [todo, setTodo] = useState(todoUpdateValue);
+  const [todo, setTodo] = useState(editInitialValue);
 
   useEffect(() => {
     setTodo(todoTobeEdit[0]);
@@ -25,29 +44,20 @@ const UpdateTodo = ({ todoTobeEdit, editTodo }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedTodo = {
-      id: todo.id,
-      task_name: todo.task_name,
-      publish_date: todo.publish_date,
-    };
-    console.log(todo);
     editTodo(todo);
   };
 
   return (
-    <form className="add-task-form" onSubmit={handleSubmit}>
+    <StyledEdit onSubmit={handleSubmit}>
       <input
-        className="add-task"
-        name="task"
+        name="todo"
         value={todo.task_name}
         type="text"
-        placeholder="Edit a task..."
+        placeholder="Edit a todo..."
         onChange={inputChange}
       />
-      <button type="submit" className="add-task-btn">
-        <i class="fas fa-plus"></i>
-      </button>
-    </form>
+      <button type="submit">Edit</button>
+    </StyledEdit>
   );
 };
 

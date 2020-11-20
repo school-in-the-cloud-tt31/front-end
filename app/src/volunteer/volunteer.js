@@ -4,33 +4,30 @@ import styled from "styled-components";
 
 const StyledVolunteer = styled.div`
   .title {
-    margin: 1%;
-    font-size: 10rem;
+    margin: 0;
+    padding: 1%;
+    background-color: #2e2e2e;
+    color: white;
+    text-align: center;
   }
   .todo-list {
     display: flex;
-    flex-direction: column;
-    margin: 1%;
+    flex-wrap: wrap;
+    margin: 1% auto;
     width: 50%;
   }
-  .todo {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 30%;
-    margin: 2%;
-    font-size: 2.5rem;
-  }
-  h2 {
-    width: 80%;
-  }
-  input {
-    width: 20%;
-  }
-  .active {
-    background: red;
-    text-decoration: line-through;
-  }
+`;
+
+const StyledCard = styled.div`
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  box-shadow: 5px 5px 13px -6px #000000;
+  width: 30%;
+  padding: 3%;
+  margin: 10px auto;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.5rem;
 `;
 
 const Volunteer = () => {
@@ -49,11 +46,15 @@ const Volunteer = () => {
   return (
     <StyledVolunteer>
       <div className="title">
-        <h2>To-Do List</h2>
+        <h2>Volunteer Dashboard</h2>
       </div>
       <div className="todo-list">
         {todoList.map((todo) => {
-          return <div>{todo.task_name}</div>;
+          return (
+            <StyledCard>
+              <p className="todo">{todo.task_name}</p>
+            </StyledCard>
+          );
         })}
       </div>
     </StyledVolunteer>

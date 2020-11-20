@@ -2,30 +2,68 @@ import React from "react";
 import { connect } from "react-redux";
 import { deleteTodo } from "../redux/actions";
 import { editTodoState } from "../redux/actions";
+import styled from "styled-components";
+
+const StyledTodo = styled.div`
+  button {
+    margin: 0 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: #2e2e2e;
+    color: white;
+    padding: 10px;
+  }
+
+  .btns {
+    text-align: center;
+  }
+
+  .card {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+    border: 1px solid #dedede;
+    border-radius: 10px;
+    box-shadow: 5px 5px 13px -6px #000000;
+    width: 25%;
+    padding: 1%;
+    margin: 10px auto;
+    text-transform: capitalize;
+  }
+
+  .title {
+    padding: 0 10px;
+  }
+
+  .date {
+    margin: 0 15px;
+  }
+
+  hr {
+    width: 5%;
+    margin: 20px auto;
+  }
+`;
+
 const Todo = ({ todo, deleteTodo, editTodoState }) => {
   return (
-    <div>
-      <button onClick={() => editTodoState(todo.id)} className="edit-btn">
-        EDIT<i className="fas fa-edit"></i>
-      </button>
-      <button onClick={() => deleteTodo(todo.id)} className="delete-btn">
-        DELETE<i className="fas fa-trash"></i>
-      </button>
-      <div className="table-row">
-        <div className="id-cont">
-          <div className="id-title">ID</div>
-          <div className="id-value">{todo.id}</div>
+    <StyledTodo>
+      <hr />
+      <div className="card">
+        <div className="title">
+          <h5>TASK</h5>
+          <p>{todo.task_name}</p>
         </div>
-        <div className="task-cont">
-          <div className="task-title">TASK</div>
-          <div className="task-value">{todo.task_name}</div>
-        </div>
-        <div className="date-cont">
-          <div className="date-title">PUBLISHED DATE</div>
-          <div className="date-value">{todo.publish_date}</div>
+        <div className="date">
+          <h5>PUBLISHED DATE</h5>
+          <p>{todo.publish_date}</p>
         </div>
       </div>
-    </div>
+      <div className="btns">
+        <button onClick={() => editTodoState(todo.id)}>EDIT</button>
+        <button onClick={() => deleteTodo(todo.id)}>DELETE</button>
+      </div>
+    </StyledTodo>
   );
 };
 
