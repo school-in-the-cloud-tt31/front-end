@@ -4,6 +4,10 @@ import SignUp from "./forms/SignUp";
 import Login from "./forms/Login";
 import { Route, Switch } from "react-router-dom";
 
+import StudentDashboard from "./student-components/StudentDashboard";
+import Volunteer from "./volunteer/Volunteer";
+import AdminDashboard from "./admin-components/AdminDashboard";
+
 import PrivateRoute from "./PrivateRoute";
 
 function App() {
@@ -12,9 +16,24 @@ function App() {
       <Switch>
         <Route exact path="/" component={SignUp} />
         <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/admin" />
-        <PrivateRoute exact path="/student" />
-        <PrivateRoute exact path="/volunteer" />
+        <PrivateRoute
+          exact
+          path="/admin"
+          componentType="admin"
+          component={AdminDashboard}
+        />
+        <PrivateRoute
+          exact
+          path="/student"
+          componentType="student"
+          component={StudentDashboard}
+        />
+        <PrivateRoute
+          exact
+          path="/volunteer"
+          componentType="volunteer"
+          component={Volunteer}
+        />
       </Switch>
     </div>
   );

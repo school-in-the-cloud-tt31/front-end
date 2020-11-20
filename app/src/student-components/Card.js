@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 import styled from "styled-components";
 
 const StyledCard = styled.div`
@@ -11,10 +12,28 @@ const StyledCard = styled.div`
 `;
 
 export default function Card() {
+  const [volunteers, setVolunteers] = useState([]);
+
+  useEffect(() => {
+    axiosWithAuth()
+      .get("/api/users/volunteers")
+      .then((res) => {
+        setVolunteers(res.data);
+      });
+  }, []);
+
   return (
-    <StyledCard>
-      <h2>Volunteer Name</h2>
-      <p>Monday, Tuesday, Friday // USA</p>
-    </StyledCard>
+    <div>
+      {volunteers.map((volunteer) => {
+        return (
+          <StyledCard>
+            <h2>{volunteer.username}</h2>
+            <p>
+              {volunteer.country} // {volunteer.available}
+            </p>
+          </StyledCard>
+        );
+      })}
+    </div>
   );
 }

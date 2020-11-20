@@ -66,11 +66,10 @@ export default function SignUp(props) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const valueToUse = name === "role" ? parseInt(value, 10) : value;
 
     yup
       .reach(schema, name)
-      .validate(valueToUse)
+      .validate(value)
       .then(() => {
         setFormErrors({ ...formErrors, [name]: "" });
       })
@@ -81,27 +80,29 @@ export default function SignUp(props) {
         });
       });
 
-    setFormValues({ ...formValues, [name]: valueToUse });
+    setFormValues({ ...formValues, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const newUser = {
-      email: formValues.email,
-      name: formValues.name,
-      password: formValues.password,
-      role: formValues.role,
-      country: formValues.country,
+      username: formValues.name.trim(),
+      password: formValues.password.trim(),
+      user_type: formValues.role.trim(),
+      country: formValues.country.trim(),
     };
 
     axios
       .post(
-        "https://schoolinthecloudtt31.herokuapp.com/api/auth/register",
+        "https://school-in-cloud-lambda.herokuapp.com/api/auth/register",
         newUser
       )
       .then((res) => {
-        localStorage.setItem("token", res.data.payload.token);
+        console.log(res.data);
+        alert(
+          `Thank you for registering, ${res.data.username}. Login to continue.`
+        );
       })
       .catch((err) => {
         debugger;
@@ -152,9 +153,9 @@ export default function SignUp(props) {
         id="role"
       >
         <option value="0">---Select a role---</option>
-        <option value="1">Student</option>
-        <option value="2">Admin</option>
-        <option value="3">Volunteer</option>
+        <option value="student">Student</option>
+        <option value="admin">Admin</option>
+        <option value="volunteer">Volunteer</option>
       </select>
       <div>{formErrors.role}</div>
 
@@ -168,6 +169,7 @@ export default function SignUp(props) {
         onChange={handleChange}
       />
       <div>{formErrors.country}</div>
+
       <button type="submit">Sign Up</button>
       <p>
         Already a member? <Link to="/login">Sign in</Link>

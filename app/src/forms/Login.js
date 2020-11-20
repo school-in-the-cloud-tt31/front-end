@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import * as yup from "yup";
-import axios from "axios";
+import { signIn } from "../redux/actions";
 import schema from "../validation/loginSchema";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
 const StyledLogin = styled.form`
   width: 20%;
@@ -40,18 +41,20 @@ const StyledLogin = styled.form`
 `;
 
 const initialFormValues = {
-  name: "",
+  username: "",
   password: "",
 };
 
 const initialFormErrors = {
-  name: "",
+  username: "",
   password: "",
 };
 
-export default function Login(props) {
+function Login({ signIn, userType }) {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
+
+  const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,18 +79,11 @@ export default function Login(props) {
     e.preventDefault();
 
     let returnUser = {
-      name: formValues.name,
-      password: formValues.password,
+      username: formValues.username.trim(),
+      password: formValues.password.trim(),
     };
 
-    axios
-      .post(URL_HERE, returnUser)
-      .then((res) => {
-        localStorage.setItem("token", res.data.payload.token);
-      })
-      .catch((err) => {
-        debugger;
-      });
+    signIn(returnUser);
 
     setFormValues(initialFormValues);
   };
@@ -96,13 +92,13 @@ export default function Login(props) {
     <StyledLogin onSubmit={handleSubmit}>
       <h2>Login</h2>
 
-      <label htmlFor="name">Username</label>
+      <label htmlFor="username">Username</label>
       <input
-        id="name"
+        id="username"
         type="text"
-        name="name"
+        name="username"
         placeholder="Username"
-        value={formValues.name}
+        value={formValues.username}
         onChange={handleChange}
       />
       <div>{formErrors.name}</div>
@@ -117,9 +113,31 @@ export default function Login(props) {
       />
       <div>{formErrors.password}</div>
       <button type="submit">Login</button>
+      {userType ? (
+        <button onClick={() => history.push(`/${userType}`)}>
+          Take me to {userType}!
+        </button>
+      ) : (
+        ""
+      )}
       <p>
-        Not a member? <Link to="/">Sign up</Link>Sign up
+        Not a member? <Link to="/">Sign up</Link>
       </p>
     </StyledLogin>
   );
 }
+
+const matchStateToProps = (dispatch) => {
+  return {
+    signIn: (user) => dispatch(signIn(user)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  const { userType } = state;
+  return {
+    userType,
+  };
+};
+
+export default connect(mapStateToProps, matchStateToProps)(Login);

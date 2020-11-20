@@ -1,86 +1,114 @@
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import axios from "axios";
 
-export const GET_VOLUNTEERS_START = "GET_VOLUNTEERS_START";
-export const GET_VOLUNTEERS_SUCCESS = "GET_VOLUNTEERS_SUCCESS";
-export const GET_VOLUNTEERS_FAILURE = "GET_VOLUNTEERS_FAILURE";
+export const GET_TODOS_START = "GET_TODOS_START";
+export const GET_TODOS_SUCCESS = "GET_TODOS_SUCCESS";
 
-export const GET_TASKS_START = "GET_TASKS_START";
-export const GET_TASKS_SUCCESS = "GET_TASKS_SUCCESS";
-export const GET_TASKS_FAILURE = "GET_TASKS_FAILURE";
+export const POST_TODO_START = "POST_TODO_START";
+export const POST_TODO_SUCCESS = "POST_TODO_SUCCESS";
 
-export const POST_TASKS_START = "POST_TASKS_START";
-export const POST_TASKS_SUCCESS = "POST_TASKS_SUCCESS";
-export const POST_TASKS_FAILURE = "POST_TASKS_FAILURE";
+export const DELETE_TODO_START = "DELETE_TODO_START";
+export const DELETE_TODO_SUCCESS = "DELETE_TODO_SUCCESS";
 
-export const EDIT_TASK_START = "EDIT_TASK_START";
-export const EDIT_TASK_SUCCESS = "EDIT_TASK_SUCCESS";
-export const EDIT_TASK_FAILURE = "EDIT_TASK_FAILURE";
+export const GET_EDIT_TODO_START = "GET_EDIT_TODO_START";
+export const GET_EDIT_TODO_SUCCESS = "GET_EDIT_TODO_SUCCESS";
 
-export const DELETE_TASK_START = "DELETE_TASK_START";
-export const DELETE_TASK_SUCCESS = "DELETE_TASK_SUCCESS";
-export const DELETE_TASK_FAILURE = "DELETE_TASK_FAILURE";
+export const EDIT_TODO_START = "EDIT_TODO_START";
+export const EDIT_TODO_SUCCESS = "EDIT_TODO_SUCCESS";
 
-export const fetchVolunteers = () => (dispatch) => {
-  dispatch({ type: GET_VOLUNTEERS_START });
+export const POST_USER_START = "POST_USER_START";
+export const POST_USER_SUCCESS = "POST_USER_SUCCESS";
 
-  axiosWithAuth()
-    .get(URLHERE)
-    .then((res) => {
-      dispatch({ type: GET_VOLUNTEERS_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      dispatch({ type: GET_VOLUNTEERS_FAILURE, payload: err.message });
-    });
+export const getTodos = () => {
+  return (dispatch) => {
+    dispatch({ type: GET_TODOS_START });
+    axiosWithAuth()
+      .get("/api/tasks")
+      .then((res) => {
+        dispatch({ type: GET_TODOS_SUCCESS, payload: res.data });
+      });
+  };
 };
 
-export const fetchTasks = () => (dispatch) => {
-  dispatch({ type: GET_TASKS_START });
-
-  axiosWithAuth()
-    .get(URLHERE)
-    .then((res) => {
-      dispatch({ type: GET_TASKS_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      dispatch({ type: GET_TASKS_FAILURE, payload: err.message });
-    });
+export const addTodo = (newTodo) => {
+  return (dispatch) => {
+    dispatch({ type: POST_TODO_START });
+    axiosWithAuth()
+      .post("/api/tasks/newtask", {
+        task_name: newTodo,
+      })
+      .then(() => {
+        axiosWithAuth()
+          .get("/api/tasks")
+          .then((res) => {
+            dispatch({ type: POST_TODO_SUCCESS, payload: res.data });
+          });
+      });
+  };
 };
 
-export const postTasks = (task) => (dispatch) => {
-  dispatch({ type: POST_TASKS_START });
-
-  axiosWithAuth()
-    .post(URLHERE, task)
-    .then((res) => {
-      dispatch({ type: POST_TASKS_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      dispatch({ type: POST_TASKS_FAILURE, payload: err.message });
-    });
+export const deleteTodo = (id) => {
+  return (dispatch) => {
+    dispatch({ type: DELETE_TODO_START });
+    axiosWithAuth()
+      .delete(`/api/tasks/${id}`)
+      .then(() => {
+        axiosWithAuth()
+          .get("/api/tasks")
+          .then((res) => {
+            dispatch({ type: DELETE_TODO_SUCCESS, payload: res.data });
+          });
+      });
+  };
 };
 
-export const editTask = (task, id) => (dispatch) => {
-  dispatch({ type: EDIT_TASK_START });
-
-  axiosWithAuth()
-    .put(URLHERE(including - id), task)
-    .then((res) => {
-      dispatch({ type: EDIT_TASK_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      dispatch({ type: EDIT_TASK_FAILURE, payload: err.message });
-    });
+export const editTodoState = (id) => {
+  return (dispatch) => {
+    dispatch({ type: GET_EDIT_TODO_START });
+    axiosWithAuth()
+      .get(`/api/tasks/${id}`)
+      .then((res) => {
+        dispatch({
+          type: GET_EDIT_TODO_SUCCESS,
+          edit: true,
+          editToBe: res.data,
+        });
+      });
+  };
 };
 
-export const deleteTask = (id) => (dispatch) => {
-  dispatch({ type: DELETE_TASK_START });
+export const editTodo = (todo) => {
+  return (dispatch) => {
+    dispatch({ type: EDIT_TODO_START });
+    axiosWithAuth()
+      .put(`/api/tasks/${todo.id}`, todo)
+      .then(() => {
+        axiosWithAuth()
+          .get("/api/tasks")
+          .then((res) => {
+            dispatch({ type: EDIT_TODO_SUCCESS, payload: res.data });
+          });
+      });
+  };
+};
 
-  axiosWithAuth()
-    .put(URLHERE(including - id))
-    .then((res) => {
-      dispatch({ type: DELETE_TASK_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      dispatch({ type: DELETE_TASK_FAILURE, payload: err.message });
-    });
+export const signIn = (login) => {
+  return (dispatch) => {
+    dispatch({ type: POST_USER_START });
+    axios
+      .post(
+        "https://school-in-cloud-lambda.herokuapp.com/api/auth/login",
+        login
+      )
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userType", res.data.usertype);
+        dispatch({
+          type: POST_USER_SUCCESS,
+          token: res.data.token,
+          userType: res.data.usertype,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
 };

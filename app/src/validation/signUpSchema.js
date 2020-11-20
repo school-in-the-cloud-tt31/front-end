@@ -10,6 +10,8 @@ export default yup.object().shape({
     .required("Username is required")
     .min(3, "Username must be three characters long"),
   password: yup.string().required("Password is required"),
-  role: yup.number().oneOf([1, 2, 3], "Role is required"),
+  role: yup
+    .string()
+    .oneOf(["student", "volunteer", "admin"], "Role is required"),
   country: yup.string().required("Country is required"),
 });
