@@ -5,7 +5,7 @@ import Login from "./forms/Login";
 import { Route, Switch } from "react-router-dom";
 
 import StudentDashboard from "./student-components/StudentDashboard";
-import Volunteer from "./volunteer/Volunteer";
+import VolunteerDashboard from "./volunteer-components/VolunteerDashboard";
 import AdminDashboard from "./admin-components/AdminDashboard";
 
 import PrivateRoute from "./PrivateRoute";
@@ -32,7 +32,7 @@ function App() {
           exact
           path="/volunteer"
           componentType="volunteer"
-          component={Volunteer}
+          component={VolunteerDashboard}
         />
       </Switch>
     </div>
